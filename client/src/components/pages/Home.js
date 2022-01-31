@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import Tasks from '../tasks/Tasks';
 import TaskForm from '../tasks/TaskForm';
+import TaskScore from '../tasks/TaskScore';
 import AuthContext from '../../context/auth/authContext';
 
 const Home = () => {
@@ -15,6 +16,7 @@ const Home = () => {
     <div className="grid-2">
       <div>
         <TaskForm />
+        <TaskScore />
       </div>
       <div>
         <Tasks />
