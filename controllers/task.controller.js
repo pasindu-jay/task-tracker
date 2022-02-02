@@ -1,6 +1,7 @@
 const Task = require('../models/Task');
 const { validationResult } = require('express-validator');
 const mongoose = require('mongoose');
+const User = require('../models/User');
 
 const getTasks = async (req, res) => {
   try {
@@ -28,7 +29,6 @@ const getTotalScore = async (req, res) => {
 };
 
 const getTotalScoreUser = async (req, res) => {
-  console.log(req.user.id);
   const ObjectId = mongoose.Types.ObjectId;
   try {
     const tasks = await Task.aggregate([
@@ -42,6 +42,41 @@ const getTotalScoreUser = async (req, res) => {
     ]);
 
     res.json(tasks[0].sumQuantity);
+  } catch (e) {
+    console.error(e.message);
+    res.status(500).send('Server error');
+  }
+};
+
+const getSuperUserData = async (req, res) => {
+  const ObjectId = mongoose.Types.ObjectId;
+  try {
+    const test = await Task.aggregate([
+      {
+        $group: {
+          _id: {
+            user: '$user',
+          },
+          details: {
+            $push: {
+              name: '$name',
+            },
+          },
+          sumQuantity: { $sum: '$score' },
+        },
+      },
+      {
+        $project: {
+          _id: '$_id.user',
+          sumQuantity: '$sumQuantity',
+          details: 1,
+        },
+      },
+    ]);
+
+    const result = await User.populate(test, { path: '_id' });
+
+    res.json(result);
   } catch (e) {
     console.error(e.message);
     res.status(500).send('Server error');
@@ -102,4 +137,5 @@ module.exports = {
   deleteTask,
   getTotalScore,
   getTotalScoreUser,
+  getSuperUserData,
 };

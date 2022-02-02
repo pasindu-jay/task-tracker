@@ -14,3 +14,4 @@ export const LOGOUT = 'LOGOUT';
 export const CLEAR_ERRORS = 'CLEAR_ERRORS';
 export const GET_TOTAL_SCORE = 'GET_TOTAL_SCORE';
 export const GET_USER_SCORE = 'GET_USER_SCORE';
+export const GET_SUPER_USER_DATA = 'GET_SUPER_USER_DATA';

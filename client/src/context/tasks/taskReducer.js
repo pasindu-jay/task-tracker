@@ -4,6 +4,7 @@ import {
   DELETE_TASKS,
   GET_TOTAL_SCORE,
   GET_USER_SCORE,
+  GET_SUPER_USER_DATA,
 } from '../types';
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -39,6 +40,12 @@ export default (state, action) => {
       return {
         ...state,
         userScore: action.payload,
+      };
+
+    case GET_SUPER_USER_DATA:
+      return {
+        ...state,
+        superUserData: action.payload,
       };
 
     default:

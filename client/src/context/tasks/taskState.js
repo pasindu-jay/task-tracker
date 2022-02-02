@@ -9,6 +9,7 @@ import {
   GET_TASKS,
   GET_TOTAL_SCORE,
   GET_USER_SCORE,
+  GET_SUPER_USER_DATA,
 } from '../types';
 
 const TaskState = (props) => {
@@ -16,6 +17,7 @@ const TaskState = (props) => {
     tasks: null,
     totalScore: null,
     userScore: null,
+    superUserData: [],
   };
 
   const [state, dispatch] = useReducer(taskReducer, initialState);
@@ -43,6 +45,7 @@ const TaskState = (props) => {
       dispatch({ type: ADD_TASKS, payload: res.data });
       getTotalScore();
       getTotalUserScore();
+      getSuperUserData();
     } catch (error) {
       console.log(error);
     }
@@ -53,6 +56,9 @@ const TaskState = (props) => {
       await axios.delete(`/api/tasks/${id}`);
 
       dispatch({ type: DELETE_TASKS, payload: id });
+      getTotalScore();
+      getTotalUserScore();
+      getSuperUserData();
     } catch (error) {
       console.log(error);
     }
@@ -82,6 +88,15 @@ const TaskState = (props) => {
     }
   };
 
+  const getSuperUserData = async () => {
+    try {
+      const res = await axios.get('/api/tasks/get_super_user_data');
+      dispatch({ type: GET_SUPER_USER_DATA, payload: res.data });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <TaskContext.Provider
       value={{
@@ -94,6 +109,8 @@ const TaskState = (props) => {
         totalScore: state.totalScore,
         getTotalUserScore,
         userScore: state.userScore,
+        getSuperUserData,
+        superUserData: state.superUserData,
       }}>
       {props.children}
     </TaskContext.Provider>
