@@ -17,6 +17,10 @@ const TaskSchema = mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  score: {
+    type: Number,
+    required: true,
+  },
 });
 
 module.exports = mongoose.model('task', TaskSchema);

@@ -1,4 +1,11 @@
-import { ADD_TASKS, GET_TASKS, DELETE_TASKS } from '../types';
+import {
+  ADD_TASKS,
+  GET_TASKS,
+  DELETE_TASKS,
+  GET_TOTAL_SCORE,
+  GET_USER_SCORE,
+  GET_SUPER_USER_DATA,
+} from '../types';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (state, action) => {
@@ -21,6 +28,24 @@ export default (state, action) => {
         ...state,
         tasks: state.tasks.filter((task) => task._id !== action.payload),
         loading: false,
+      };
+
+    case GET_TOTAL_SCORE:
+      return {
+        ...state,
+        totalScore: action.payload,
+      };
+
+    case GET_USER_SCORE:
+      return {
+        ...state,
+        userScore: action.payload,
+      };
+
+    case GET_SUPER_USER_DATA:
+      return {
+        ...state,
+        superUserData: action.payload,
       };
 
     default:
